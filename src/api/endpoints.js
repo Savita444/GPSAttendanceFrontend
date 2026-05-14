@@ -66,6 +66,82 @@ export const ReportAPI = {
   pdfUrl: (params) => `/api/reports/attendance/pdf?${new URLSearchParams(params)}`,
 };
 
+// ---------- MVP backend (Attendance Management System) ----------
+
+// Admin / Trainer accounts (password login)
+export const UserMvpAPI = {
+  list: (params) => api.get('/users', { params }).then((r) => r.data?.data ?? r.data),
+  create: (body) => api.post('/users', body).then((r) => r.data?.data ?? r.data),
+  update: (id, body) => api.put(`/users/${id}`, body).then((r) => r.data?.data ?? r.data),
+  disable: (id) => api.delete(`/users/${id}`).then((r) => r.data?.data ?? r.data),
+};
+
+export const CollegeAPI = {
+  list: (params) => api.get('/colleges', { params }).then((r) => r.data?.data ?? r.data),
+  get: (id) => api.get(`/colleges/${id}`).then((r) => r.data?.data ?? r.data),
+  create: (body) => api.post('/colleges', body).then((r) => r.data?.data ?? r.data),
+  update: (id, body) => api.put(`/colleges/${id}`, body).then((r) => r.data?.data ?? r.data),
+  disable: (id) => api.delete(`/colleges/${id}`).then((r) => r.data?.data ?? r.data),
+};
+
+export const BatchAPI = {
+  list: (params) => api.get('/batches', { params }).then((r) => r.data?.data ?? r.data),
+  get: (id) => api.get(`/batches/${id}`).then((r) => r.data?.data ?? r.data),
+  create: (body) => api.post('/batches', body).then((r) => r.data?.data ?? r.data),
+  update: (id, body) => api.put(`/batches/${id}`, body).then((r) => r.data?.data ?? r.data),
+  disable: (id) => api.delete(`/batches/${id}`).then((r) => r.data?.data ?? r.data),
+};
+
+export const StudentMasterAPI = {
+  list: (params) => api.get('/students', { params }).then((r) => r.data?.data ?? r.data),
+  get: (id) => api.get(`/students/${id}`).then((r) => r.data?.data ?? r.data),
+  create: (body) => api.post('/students', body).then((r) => r.data?.data ?? r.data),
+  update: (id, body) => api.put(`/students/${id}`, body).then((r) => r.data?.data ?? r.data),
+  disable: (id) => api.delete(`/students/${id}`).then((r) => r.data?.data ?? r.data),
+  bulkPreview: (file) => {
+    const fd = new FormData();
+    fd.append('file', file);
+    return api.post('/students/bulk/preview', fd, { headers: { 'Content-Type': 'multipart/form-data' } }).then((r) => r.data?.data ?? r.data);
+  },
+  bulkImport: (file) => {
+    const fd = new FormData();
+    fd.append('file', file);
+    return api.post('/students/bulk/import', fd, { headers: { 'Content-Type': 'multipart/form-data' } }).then((r) => r.data?.data ?? r.data);
+  },
+};
+
+export const StaffContactAPI = {
+  list: (params) => api.get('/staff-contacts', { params }).then((r) => r.data?.data ?? r.data),
+  create: (body) => api.post('/staff-contacts', body).then((r) => r.data?.data ?? r.data),
+  update: (id, body) => api.put(`/staff-contacts/${id}`, body).then((r) => r.data?.data ?? r.data),
+  remove: (id) => api.delete(`/staff-contacts/${id}`).then((r) => r.data?.data ?? r.data),
+};
+
+export const AttendanceMVP = {
+  mark: (formData) =>
+    api.post('/attendance/mark', formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then((r) => r.data?.data ?? r.data),
+  myHistory: (params) => api.get('/attendance/me', { params }).then((r) => r.data?.data ?? r.data),
+  list: (params) => api.get('/attendance', { params }).then((r) => r.data?.data ?? r.data),
+  forStudent: (studentId) => api.get(`/attendance/student/${studentId}`).then((r) => r.data?.data ?? r.data),
+};
+
+export const DashboardAPI = {
+  summary: () => api.get('/dashboard/summary').then((r) => r.data?.data ?? r.data),
+  insights: () => api.get('/dashboard/insights').then((r) => r.data?.data ?? r.data),
+};
+
+export const SettingsAPI = {
+  get: () => api.get('/settings').then((r) => r.data?.data ?? r.data),
+  update: (body) => api.put('/settings', body).then((r) => r.data?.data ?? r.data),
+};
+
+export const ReportMVPAPI = {
+  list: (params) => api.get('/reports', { params }).then((r) => r.data?.data ?? r.data),
+  get: (id) => api.get(`/reports/${id}`).then((r) => r.data?.data ?? r.data),
+  generateForBatch: (batchId, body) => api.post(`/reports/batch/${batchId}`, body || {}).then((r) => r.data?.data ?? r.data),
+  generateWeeklyAll: () => api.post('/reports/weekly/run-now').then((r) => r.data?.data ?? r.data),
+};
+
 export const ReminderAPI = {
   preview: (params) => api.get('/reminders/fortnightly/preview', { params }).then((r) => r.data),
   previewTrainer: (trainerId, params) =>

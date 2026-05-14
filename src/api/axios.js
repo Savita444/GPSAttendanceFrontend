@@ -5,6 +5,11 @@ const api = axios.create({
   timeout: 20000,
 });
 
+if (import.meta.env.VITE_USE_MOCKS === 'true') {
+  const { default: mockAdapter } = await import('../mocks/adapter.js');
+  api.defaults.adapter = mockAdapter;
+}
+
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) config.headers.Authorization = `Bearer ${token}`;

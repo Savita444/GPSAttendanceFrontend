@@ -3,12 +3,25 @@ import { AuthAPI } from '../../api/endpoints';
 
 const safeJSON = (s) => { try { return JSON.parse(s); } catch { return null; } };
 
+// Normalises both legacy `{ token, user }` and MVP `{ success, message, data: { accessToken, refreshToken, user } }`.
+function unwrap(res) {
+  const payload = res?.data || res || {};
+  return {
+    token: payload.accessToken || payload.token || null,
+    refreshToken: payload.refreshToken || null,
+    user: payload.user || null,
+  };
+}
+
 export const login = createAsyncThunk(
   'auth/login',
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const { token, user } = await AuthAPI.login(email, password);
+      const res = await AuthAPI.login(email, password);
+      const { token, refreshToken, user } = unwrap(res);
+      if (!token || !user) return rejectWithValue('Unexpected login response');
       localStorage.setItem('token', token);
+      if (refreshToken) localStorage.setItem('refreshToken', refreshToken);
       localStorage.setItem('user', JSON.stringify(user));
       return { token, user };
     } catch (e) {
@@ -20,12 +33,16 @@ export const login = createAsyncThunk(
 export const logout = createAsyncThunk('auth/logout', async () => {
   try { await AuthAPI.logout(); } catch {}
   localStorage.removeItem('token');
+  localStorage.removeItem('refreshToken');
   localStorage.removeItem('user');
 });
 
 export const fetchMe = createAsyncThunk('auth/me', async () => {
-  const { user } = await AuthAPI.me();
-  localStorage.setItem('user', JSON.stringify(user));
+  const res = await AuthAPI.me();
+  // MVP: { success, message, data: { role, profile } }  | Legacy: { user }
+  const payload = res?.data || res || {};
+  const user = payload.user || payload.profile || (payload.profile ? { ...payload.profile, role: payload.role } : null);
+  if (user) localStorage.setItem('user', JSON.stringify(user));
   return user;
 });
 

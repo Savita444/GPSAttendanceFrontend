@@ -52,19 +52,30 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex bg-slate-50">
-      <aside className="hidden lg:flex w-1/2 relative overflow-hidden
-                        bg-gradient-to-br from-brand-700 via-brand-600 to-sky-500 text-white">
-        <div className="absolute inset-0 bg-grid anim-grid-pan opacity-50" />
-        <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-sky-400/40 blur-3xl anim-blob" />
-        <div className="absolute bottom-0 -right-32 w-[28rem] h-[28rem] rounded-full bg-indigo-500/40 blur-3xl anim-blob-slow" />
-        <div className="absolute top-1/3 right-1/4 w-72 h-72 rounded-full bg-cyan-300/30 blur-3xl anim-blob" style={{ animationDelay: '4s' }} />
+      <aside
+        className="hidden lg:flex w-1/2 relative overflow-hidden text-white"
+        style={{
+          background:
+            'radial-gradient(900px 460px at 0% 0%, rgba(99,152,200,0.35), transparent 60%),' +
+            'radial-gradient(800px 500px at 100% 100%, rgba(26,93,160,0.45), transparent 60%),' +
+            'radial-gradient(500px 320px at 50% 30%, rgba(96,165,250,0.14), transparent 60%),' +
+            'linear-gradient(180deg, #0a1c30 0%, #1A5DA0 50%, #0a1c30 100%)',
+        }}
+      >
+        <div className="absolute inset-0 bg-grid anim-grid-pan opacity-30" />
+        <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full blur-3xl anim-blob"
+             style={{ background: 'rgba(135,179,213,0.30)' }} />
+        <div className="absolute bottom-0 -right-32 w-[28rem] h-[28rem] rounded-full blur-3xl anim-blob-slow"
+             style={{ background: 'rgba(26,93,160,0.45)' }} />
+        <div className="absolute top-1/3 right-1/4 w-72 h-72 rounded-full blur-3xl anim-blob"
+             style={{ animationDelay: '4s', background: 'rgba(79,141,190,0.30)' }} />
 
         <div className="relative z-10 flex flex-col justify-between p-12 w-full">
           <div className="flex items-center gap-2">
             <span className="inline-grid place-items-center w-9 h-9 rounded-xl bg-white/15 backdrop-blur">
               <Icon.Pin className="text-white" />
             </span>
-            <span className="font-semibold tracking-wide">Internship Attendance</span>
+            <span className="font-semibold tracking-wide">Attendance MVP</span>
           </div>
 
           <div className="flex items-center justify-center -mt-8 anim-fade-in delay-300">
@@ -90,13 +101,14 @@ export default function Login() {
       </aside>
 
       <main className="flex-1 grid place-items-center p-6 sm:p-10 relative overflow-hidden">
-        <div className="lg:hidden absolute -top-32 -right-20 w-72 h-72 rounded-full bg-brand-200/50 blur-3xl anim-blob" />
-        <div className="lg:hidden absolute -bottom-24 -left-16 w-72 h-72 rounded-full bg-sky-200/50 blur-3xl anim-blob-slow" />
+        <div className="lg:hidden absolute -top-32 -right-20 w-72 h-72 rounded-full bg-brand-100 blur-3xl anim-blob" />
+        <div className="lg:hidden absolute -bottom-24 -left-16 w-72 h-72 rounded-full bg-brand-200 blur-3xl anim-blob-slow" />
 
         <div className={`relative w-full max-w-md anim-slide-up ${shake ? 'anim-shake' : ''}`}>
           <div className="lg:hidden flex items-center justify-center gap-2 mb-8">
-            <span className="inline-grid place-items-center w-10 h-10 rounded-xl bg-gradient-to-br from-brand-600 to-sky-500 text-white shadow-md"><Icon.Pin/></span>
-            <span className="font-semibold text-slate-800">Internship Attendance</span>
+            <span className="inline-grid place-items-center w-10 h-10 rounded-xl text-white shadow-md"
+              style={{ backgroundImage: 'linear-gradient(135deg, #2a6da6 0%, #1A5DA0 50%, #133f6b 100%)' }}><Icon.Pin/></span>
+            <span className="font-semibold text-slate-800">Attendance MVP</span>
           </div>
 
           <div className="glass rounded-3xl shadow-xl shadow-brand-900/5 border border-white/60 p-7 sm:p-9">
@@ -137,9 +149,13 @@ export default function Login() {
 
               <button type="submit" disabled={loading}
                 className="group relative w-full inline-flex items-center justify-center gap-2 rounded-xl
-                           px-4 py-3 text-sm font-semibold text-white bg-gradient-to-r from-brand-600 to-sky-500
-                           hover:from-brand-700 hover:to-sky-600 shadow-lg shadow-brand-600/20
-                           active:scale-[0.99] transition disabled:opacity-60 disabled:cursor-not-allowed">
+                           px-4 py-3 text-sm font-semibold text-white
+                           active:scale-[0.99] transition disabled:opacity-60 disabled:cursor-not-allowed"
+                style={{
+                  backgroundImage: 'linear-gradient(180deg, #2a6da6 0%, #1A5DA0 50%, #154d85 100%)',
+                  border: '1px solid #1A5DA0',
+                  boxShadow: '0 1px 0 rgba(255,255,255,0.20) inset, 0 10px 24px -8px rgba(26,93,160,0.55)',
+                }}>
                 {loading ? (
                   <><span className="spinner"/><span>Signing in…</span></>
                 ) : (
